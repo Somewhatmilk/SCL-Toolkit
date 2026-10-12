@@ -1,8 +1,10 @@
 FROM python:3.11-slim
 
-# Virtual display + input simulation + recording, all inside the container
+# Virtual display + input simulation + recording, all inside the container.
+# python3-tk is needed for the launcher GUI.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     xvfb x11-utils x11-apps xdotool xterm xfonts-base openbox ffmpeg imagemagick \
+    python3-tk \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir pandas openpyxl pypdf

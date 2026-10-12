@@ -19,10 +19,16 @@ TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def python_exe():
-    """Prefer a project venv if present, else the current interpreter."""
+    """Prefer a project venv if present, else the current interpreter.
+
+    Platform-aware: Windows venvs keep the interpreter at Scripts\\python.exe,
+    Unix (including containers) at bin/python.
+    """
+    sub = "Scripts" if os.name == "nt" else "bin"
+    exe = "python.exe" if os.name == "nt" else "python"
     for venv in (".venv", ".venv-test", "venv"):
-        cand = os.path.join(TOOL_DIR, venv, "Scripts", "python.exe")
-        if os.path.exists(cand):
+        cand = os.path.join(TOOL_DIR, venv, sub, exe)
+        if os.path.isfile(cand):
             return cand
     return sys.executable
 
@@ -40,6 +46,11 @@ class Launcher(tk.Tk):
         self.log = scrolledtext.ScrolledText(self, height=10, state="disabled")
         self.log.pack(fill="x", padx=8, pady=(0, 8))
         tk.Button(self, text="Run", command=self._run_selected).pack(pady=(0, 8))
+
+        # Demo hook (SCL_DEMO=1): only used by the recorded off-screen demo.
+        # Pre-fills each tab and clicks Run, exactly like a user would.
+        if os.environ.get("SCL_DEMO"):
+            self.after(800, self._demo_step1)
 
     # ---------- tabs ----------
 
@@ -218,6 +229,39 @@ class Launcher(tk.Tk):
         self.log.insert(tk.END, text)
         self.log.see(tk.END)
         self.log.config(state="disabled")
+
+    # ---------- demo hook (SCL_DEMO=1, off-screen recording only) ----------
+
+    def _demo_step1(self):
+        """Formatter tab: pre-fill and run."""
+        self.fmt_source.set(os.path.join(TOOL_DIR, "sample_contacts.csv"))
+        self.fmt_rename.set("phone:Mobile")
+        self.fmt_drop.set("notes")
+        self._run_selected()
+        self.after(6000, self._demo_step2)
+
+    def _demo_step2(self):
+        """Merger tab: switch, add two PDFs, run."""
+        self.notebook.select(1)
+        self.merger_files = [os.path.join(TOOL_DIR, "sample_a.pdf"),
+                             os.path.join(TOOL_DIR, "sample_b.pdf")]
+        self.merger_list.insert(tk.END, "sample_a.pdf")
+        self.merger_list.insert(tk.END, "sample_b.pdf")
+        self.merger_out.set(os.path.join(TOOL_DIR, "demo_merged.pdf"))
+        self._run_selected()
+        self.after(4000, self._demo_step3)
+
+    def _demo_step3(self):
+        """WhatsApp tab: switch, pre-fill, dry-run."""
+        self.notebook.select(2)
+        self.wa_contacts.set(os.path.join(TOOL_DIR, "sample_contacts.csv"))
+        self.wa_template.set("Hi {name}, this is a test.")
+        self.wa_dryrun.set(True)
+        self._run_selected()
+        self.after(5000, self._demo_done)
+
+    def _demo_done(self):
+        self._log("\n[demo] All three tools ran. This window is the launcher.")
 
 
 if __name__ == "__main__":
