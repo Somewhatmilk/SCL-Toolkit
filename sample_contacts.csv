@@ -1,0 +1,6 @@
+name,phone,message,notes,status
+Alice Tan,+65 8123 4567,Hi {name}, check our new fitness plan!,lead,new
+Bob Lee,+65 8765 4321,,repeat,active
+Carol Ng,+65 9012 3456,Hi {name}, here is the quote.,vip,active
+N.A.,+65 9888 7777,test,N/A,inactive
+Dave Oh,+65 8555 4444,,,N.A.

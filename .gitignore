@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.venv-test/
+venv/
+
+# Tool artifacts
+*.exe
+build/
+dist/
+*.spec
+.wa_profile/
+wa_send_log.jsonl
+
+# OS
+Thumbs.db
+.DS_Store
