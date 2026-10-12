@@ -12,6 +12,8 @@ dist/
 *.spec
 .wa_profile/
 wa_send_log.jsonl
+*_formatted.xlsx
+merged.pdf
 
 # OS
 Thumbs.db

@@ -1,33 +1,67 @@
 # SCL-Toolkit
 
-A small, growing set of everyday utility tools that SCL Systems work spun off.
-Each tool is standalone, plain-Python, and works on any Windows machine.
+Small utilities I built for day-to-day work: turn messy contact lists into
+clean Excel sheets, merge PDFs, and send personalized WhatsApp messages to
+a list of contacts. Each tool is standalone, plain Python, and runs on any
+Windows machine.
 
-**Formerly `Personal-Projects`.** Renamed 2026-10-12 so the repo says what it
-actually contains.
+## What's inside
 
-## Tools
+### Generic Formatter
 
-| Tool | What it does | Run it |
-|---|---|---|
-| `generic_formatter.py` | Adapts **any** structured data (CSV/JSON/XLSX) to a clean, styled Excel sheet. Column renames, drops, null-token handling, numeric coercion, frozen header, auto filter. No domain assumptions. | `python generic_formatter.py contacts.csv --rename "name:Full Name" --drop "notes"` |
-| `pdf_merger.py` | Concatenates PDFs in exactly the order you list them, CLI or GUI (add, reorder, watch folder, merge, optional delete-after). | `python pdf_merger.py --files a.pdf b.pdf c.pdf -o out.pdf` |
-| `whatsapp_bulk_sender.py` | Sends personalized WhatsApp messages to a contact list from Excel/CSV. Persistent QR login, `{name}` template, dry-run, pacing, per-contact log, confirmation gate. | `python whatsapp_bulk_sender.py contacts.xlsx --dry-run` |
-| `test_script.py` | Original PDF merger GUI (kept for reference / fallback). | `python test_script.py` |
+Takes CSV, JSON, or XLSX input and produces a clean, styled Excel sheet.
+Rename columns, drop the ones you don't need, blank out null tokens, keep
+only a subset. It makes no assumptions about your data; it adapts to
+whatever structure you throw at it.
+
+```
+python generic_formatter.py contacts.csv --rename "name:Full Name" --drop notes
+```
+
+### PDF Merger
+
+Concatenates PDFs in exactly the order you list them. GUI mode lets you
+add, reorder, and watch a folder; CLI mode is one line.
+
+```
+python pdf_merger.py --files a.pdf b.pdf c.pdf -o out.pdf
+```
+
+### WhatsApp Bulk Sender
+
+Sends personalized WhatsApp messages to a contact list from Excel or CSV.
+Persistent QR login, a `{name}` placeholder in your template, pacing
+between sends, and a per-contact log. It always starts in dry-run so you
+can review exactly what would be sent before anything goes out.
+
+```
+python whatsapp_bulk_sender.py contacts.xlsx --template "Hi {name}, ..." --dry-run
+```
 
 ## Install
 
-```bash
+```
 pip install -r requirements.txt
-# optional, for the WhatsApp tool:
+# only needed for the WhatsApp tool:
 playwright install chromium
 ```
 
+## GUI
+
+Not comfortable with the command line? Run the launcher and pick a tool
+from the menu; it handles file selection for you.
+
+```
+python launcher.py
+```
+
+## Docs
+
+- [User manual](USER_MANUAL.md): step-by-step for each tool, with both GUI and CLI paths
+- [Demo](demo/out/scl-demo.mp4): the tools in action
+
 ## Notes
 
-- The old repo contained only PyInstaller build artifacts for the WhatsApp
-  tool; the original `WhatsappV3.py` source was never committed and is gone
-  from disk (OneDrive placeholder, folder deleted). The WhatsApp tool is a
-  clean rebuild with the same purpose and a safer flow (dry-run + confirm).
-- Deliberately AGPL-3.0-free: license is MIT for anything new; the legacy
-  GUI kept GPL-3.0 as it was published. See `LICENSE`.
+The WhatsApp tool is a rebuild; the original source was lost, so this
+version was written from scratch with a safer flow (dry-run + confirmation
+gate). See `LICENSE` for licensing.
