@@ -16,3 +16,6 @@ wa_send_log.jsonl
 # OS
 Thumbs.db
 .DS_Store
+
+# Demo artifacts
+demo/out/
