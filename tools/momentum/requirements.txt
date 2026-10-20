@@ -1,0 +1,7 @@
+streamlit
+streamlit-chat
+streamlit-extras
+python-dotenv
+langchain
+transformers
+torch

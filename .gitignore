@@ -21,3 +21,7 @@ Thumbs.db
 
 # Demo artifacts
 demo/out/
+
+# Secrets — never commit (merged from SCL-Momentum 2026-10-20)
+.env
+secrets.toml

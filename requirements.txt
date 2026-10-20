@@ -6,3 +6,13 @@ watchdog>=4.0
 
 # WhatsApp bulk sender (optional)
 playwright>=1.45
+
+# SCL-Momentum chatbot (merged 2026-10-20 from Somewhatmilk/SCL-Momentum)
+# HEAVY: install only if using tools/momentum/chatbot.py (LLM stack)
+streamlit
+streamlit-chat
+streamlit-extras
+python-dotenv
+langchain
+transformers
+torch
