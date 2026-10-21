@@ -84,4 +84,5 @@ python launcher.py
 
 ## License
 
-See [LICENSE](LICENSE).
+Dual license: core tools are GPL-3.0 (see [LICENSE](LICENSE));
+`tools/momentum/` is AGPL-3.0 (see [tools/momentum/LICENSE](tools/momentum/LICENSE)).
